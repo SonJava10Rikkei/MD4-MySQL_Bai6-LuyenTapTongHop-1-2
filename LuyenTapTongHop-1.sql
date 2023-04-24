@@ -111,10 +111,10 @@ inner join classes on  classes.classId = classStudent.classId
 
 -- 6. Thay doi kieu du lieu cua cot SubjectName trong bang Subjects thanh nvarchar(max)
 alter table Subjects
-modify column SubName varchar(255);
+modify column SubjectName varchar(255);
 
 -- 7. Cap nhat them dong chu « Day la mon hoc «  vao truoc cac ban ghi tren cot SubjectName trong bang Subjects
-update Subjects set SubjectName = concat('Đây là môn học ', SubjectName);
+UPDATE Subjects SET SubjectName = CONCAT('Day la mon hoc ', SubjectName);
 
 -- 8. Viet Check Constraint de kiem tra do tuoi nhap vao trong bang Student yeu cau Age >15 va Age < 50
 alter table Students add constraint age check(age between 15 and 55);
@@ -123,15 +123,17 @@ alter table Students add constraint age check(age between 15 and 55);
 -- Tắt khóa ngoại
 set foreign_key_checks = 0;
 -- Bật khóa ngoạimport table from
-
 set foreign_key_checks = 1;
+
 -- 10. Xoa hoc vien co StudentID la 1
+-- trước khi xóa cần bật tắt khóa ngoại không thì cần xóa dữ liệu ở các bảng có các trường liên quan đến nó 
+select * from Students;
+select * from Marks;
 delete from Students where StudentID = 1;
 
 -- 11. Trong bang Student them mot column Status co kieu du lieu la Bit va co gia tri Default la 1
-alter table students
+alter table Students
 add status bit default 1;
 
 -- 12. Cap nhap gia tri Status trong bang Student thanh 0
  update students set status = 0;
-
